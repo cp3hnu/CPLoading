@@ -11,10 +11,14 @@ import UIKit
 let kCPRingStrokeAnimationKey = "CPLoadingView.stroke"
 let kCPRingRotationAnimationKey = "CPLoadingView.rotation"
 let kCPCompletionAnimationKey = "CPLoadingView.completion"
-let kCPCompletionAnimationDuration = 0.5
+let kCPCompletionAnimationDuration: NSTimeInterval = 0.5
+let kCPHidesWhenStoppedDelay: NSTimeInterval = 0.5
 
-class CPLoadingView: UIView {
-    var lineWidth: CGFloat = 1.0 {
+public typealias Block = () -> Void
+
+public class CPLoadingView: UIView {
+    
+    @IBInspectable public var lineWidth: CGFloat = 1.0 {
         didSet {
             progressLayer.lineWidth = lineWidth
             shapeLayer.lineWidth = lineWidth
@@ -22,24 +26,28 @@ class CPLoadingView: UIView {
             setProgressLayerPath()
         }
     }
-    var strokeColor = UIColor(white: 0.0, alpha: 1.0) {
+    
+    @IBInspectable public var strokeColor: UIColor = UIColor(white: 0.0, alpha: 1.0) {
         didSet {
             progressLayer.strokeColor = strokeColor.CGColor
             shapeLayer.strokeColor = strokeColor.CGColor
         }
     }
     
-    var hidesWhenStopped = false
-    private(set) var isLoading = false
-    private let progressLayer :CAShapeLayer! = CAShapeLayer()
-    private let shapeLayer :CAShapeLayer! = CAShapeLayer()
+    @IBInspectable public var hidesWhenStopped: Bool = false
+
+    public private(set) var isLoading = false
+    private let progressLayer: CAShapeLayer! = CAShapeLayer()
+    private let shapeLayer: CAShapeLayer! = CAShapeLayer()
     
-    override init(frame: CGRect) {
+    private var completionBlock: Block?
+    
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initialize()
     }
@@ -48,7 +56,7 @@ class CPLoadingView: UIView {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         
         let frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))
@@ -59,7 +67,7 @@ class CPLoadingView: UIView {
     }
     
     //MARK: - Public
-    func startLoading() {
+    public func startLoading() {
         if isLoading {
             return
         }
@@ -109,12 +117,12 @@ class CPLoadingView: UIView {
         progressLayer.addAnimation(animations, forKey: kCPRingStrokeAnimationKey)
     }
     
-    func completeLoading(success:Bool) {
+    public func completeLoading(success: Bool, completion: Block? = nil) {
         if !isLoading {
             return
         }
         
-        isLoading = false
+        completionBlock = completion
         
         progressLayer.removeAnimationForKey(kCPRingRotationAnimationKey)
         progressLayer.removeAnimationForKey(kCPRingStrokeAnimationKey)
@@ -178,11 +186,14 @@ class CPLoadingView: UIView {
         self.shapeLayer.addAnimation(groupAnimation, forKey: kCPCompletionAnimationKey)
     }
     
-    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
-        guard let _ = anim as? CAAnimationGroup else { return }
-        
+    override public func animationDidStop(anim: CAAnimation, finished flag: Bool) {
         if hidesWhenStopped {
-            NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "hiddenLoadingView", userInfo: nil, repeats: false)
+            NSTimer.scheduledTimerWithTimeInterval(kCPHidesWhenStoppedDelay, target: self, selector: "hiddenLoadingView", userInfo: nil, repeats: false)
+        } else {
+            isLoading = false
+            if completionBlock != nil {
+                completionBlock!()
+            }
         }
     }
     
@@ -215,7 +226,7 @@ class CPLoadingView: UIView {
         let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: CGFloat(0.0), endAngle: CGFloat(2 * M_PI), clockwise: true)
         progressLayer.path = path.CGPath
         progressLayer.strokeStart = 0.0
-        progressLayer.strokeEnd = 0.0
+        progressLayer.strokeEnd = 1.0
     }
     
     private func setStrokeSuccessShapePath() {
@@ -312,9 +323,13 @@ class CPLoadingView: UIView {
     }
     
     @objc private func hiddenLoadingView() {
-        if !isLoading {
-            self.hidden = true
-            shapeLayer.hidden = true
+        isLoading = false
+        
+        self.hidden = true
+        shapeLayer.hidden = true
+        
+        if completionBlock != nil {
+            completionBlock!()
         }
     }
 }
