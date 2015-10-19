@@ -29,17 +29,17 @@ import CPLoadingView
 ```
 ## Usage
 
-start loading
+Start loading
 ```swift
 startLoading()
 ``` 
 
-complete loading successfully
+Complete loading successfully
 ```swift
 completeLoading(true)
 ``` 
 
-complete loading unsuccessfully
+Complete loading unsuccessfully
 ```swift
 completeLoading(false)
 ``` 
