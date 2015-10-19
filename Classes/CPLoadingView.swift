@@ -12,7 +12,7 @@ let kCPRingStrokeAnimationKey = "CPLoadingView.stroke"
 let kCPRingRotationAnimationKey = "CPLoadingView.rotation"
 let kCPCompletionAnimationKey = "CPLoadingView.completion"
 let kCPCompletionAnimationDuration: NSTimeInterval = 0.5
-let kCPHidesWhenStoppedDelay: NSTimeInterval = 0.5
+let kCPHidesWhenCompletedDelay: NSTimeInterval = 0.5
 
 public typealias Block = () -> Void
 
@@ -27,14 +27,14 @@ public class CPLoadingView: UIView {
         }
     }
     
-    @IBInspectable public var strokeColor: UIColor = UIColor(white: 0.0, alpha: 1.0) {
+    @IBInspectable public var strokeColor: UIColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0) {
         didSet {
             progressLayer.strokeColor = strokeColor.CGColor
             shapeLayer.strokeColor = strokeColor.CGColor
         }
     }
     
-    @IBInspectable public var hidesWhenStopped: Bool = false
+    @IBInspectable public var hidesWhenCompleted: Bool = false
 
     public private(set) var isLoading = false
     private let progressLayer: CAShapeLayer! = CAShapeLayer()
@@ -135,8 +135,12 @@ public class CPLoadingView: UIView {
             setStrokeFailureShapePath()
         }
         
+        let timeFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         var strokeStart :CGFloat = 0.25
         var strokeEnd :CGFloat = 0.8
+        var phase1Duration = 0.7 * kCPCompletionAnimationDuration
+        var phase2Duration = 0.3 * kCPCompletionAnimationDuration
+        var phase3Duration = 0.0
         
         if !success {
             let square = min(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))
@@ -145,50 +149,60 @@ public class CPLoadingView: UIView {
             let sum = 2.0/3 * square
             strokeStart = increase / (sum + increase)
             strokeEnd = (increase + sum/2) / (sum + increase)
+            
+            phase1Duration = 0.5 * kCPCompletionAnimationDuration
+            phase2Duration = 0.2 * kCPCompletionAnimationDuration
+            phase3Duration = 0.3 * kCPCompletionAnimationDuration
         }
-        
-        let duration = 0.7 * kCPCompletionAnimationDuration
-        let increase = 0.3 * kCPCompletionAnimationDuration
-        let timeFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         
         self.shapeLayer.strokeEnd = 1.0
         self.shapeLayer.strokeStart = strokeStart
         let headStartAnimation = CABasicAnimation(keyPath: "strokeStart")
         headStartAnimation.fromValue = 0.0
         headStartAnimation.toValue = 0.0
-        headStartAnimation.duration = duration
+        headStartAnimation.duration = phase1Duration
         headStartAnimation.timingFunction = timeFunction
         
         let headEndAnimation = CABasicAnimation(keyPath: "strokeEnd")
         headEndAnimation.fromValue = 0.0
         headEndAnimation.toValue = strokeEnd
-        headEndAnimation.duration = duration
+        headEndAnimation.duration = phase1Duration
         headEndAnimation.timingFunction = timeFunction
         
         let tailStartAnimation = CABasicAnimation(keyPath: "strokeStart")
         tailStartAnimation.fromValue = 0.0
         tailStartAnimation.toValue = strokeStart
-        tailStartAnimation.beginTime = duration
-        tailStartAnimation.duration = increase
+        tailStartAnimation.beginTime = phase1Duration
+        tailStartAnimation.duration = phase2Duration
         tailStartAnimation.timingFunction = timeFunction
         
         let tailEndAnimation = CABasicAnimation(keyPath: "strokeEnd")
         tailEndAnimation.fromValue = strokeEnd
-        tailEndAnimation.toValue = 1.0
-        tailEndAnimation.beginTime = duration
-        tailEndAnimation.duration = increase
+        tailEndAnimation.toValue = success ? 1.0 : strokeEnd
+        tailEndAnimation.beginTime = phase1Duration
+        tailEndAnimation.duration = phase2Duration
         tailEndAnimation.timingFunction = timeFunction
+        
+        let extraAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        extraAnimation.fromValue = strokeEnd
+        extraAnimation.toValue = 1.0
+        extraAnimation.beginTime = phase1Duration + phase2Duration
+        extraAnimation.duration = phase3Duration
+        extraAnimation.timingFunction = timeFunction
         
         let groupAnimation = CAAnimationGroup()
         groupAnimation.animations = [headEndAnimation, headStartAnimation, tailStartAnimation, tailEndAnimation]
-        groupAnimation.duration = duration + increase
+        if !success {
+            groupAnimation.animations?.append(extraAnimation)
+        }
+        groupAnimation.duration = phase1Duration + phase2Duration + phase3Duration
         groupAnimation.delegate = self
         self.shapeLayer.addAnimation(groupAnimation, forKey: kCPCompletionAnimationKey)
     }
     
     override public func animationDidStop(anim: CAAnimation, finished flag: Bool) {
-        if hidesWhenStopped {
-            NSTimer.scheduledTimerWithTimeInterval(kCPHidesWhenStoppedDelay, target: self, selector: "hiddenLoadingView", userInfo: nil, repeats: false)
+        if hidesWhenCompleted {
+            NSTimer.scheduledTimerWithTimeInterval(kCPHidesWhenCompletedDelay, target: self, selector: "hiddenLoadingView", userInfo: nil, repeats: false)
         } else {
             isLoading = false
             if completionBlock != nil {

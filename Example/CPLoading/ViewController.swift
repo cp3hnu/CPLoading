@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     
     @IBAction func SwitchValueChanged(sender: AnyObject) {
         let switchCtr = sender as! UISwitch
-        loadingView.hidesWhenStopped = switchCtr.on
+        loadingView.hidesWhenCompleted = switchCtr.on
     }
     
     @IBAction func ChangeLineWith(sender: AnyObject) {
