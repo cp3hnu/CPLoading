@@ -78,31 +78,31 @@ public class CPLoadingView: UIView {
         self.hidden = false
         
         let animation = CABasicAnimation(keyPath: "transform.rotation")
-        animation.duration = 3.0
+        animation.duration = 4.0
         animation.fromValue = 0.0
         animation.toValue = 2 * M_PI
         animation.repeatCount = Float.infinity
         progressLayer.addAnimation(animation, forKey: kCPRingRotationAnimationKey)
         
         let totalDuration = 1.0
-        let firstDuration = 0.6
-        let secondDuration = totalDuration - firstDuration
+        let firstDuration = 2.0 * totalDuration / 3.0
+        let secondDuration = totalDuration / 3.0
         
         let headAnimation = CABasicAnimation(keyPath: "strokeStart")
         headAnimation.duration = firstDuration
         headAnimation.fromValue = 0.0
         headAnimation.toValue = 0.25
         
+        let tailAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        tailAnimation.duration = firstDuration
+        tailAnimation.fromValue = 0.0
+        tailAnimation.toValue = 1.0
+        
         let endHeadAnimation = CABasicAnimation(keyPath: "strokeStart")
         endHeadAnimation.beginTime = firstDuration
         endHeadAnimation.duration = secondDuration
         endHeadAnimation.fromValue = 0.25
         endHeadAnimation.toValue = 1.0
-        
-        let tailAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        tailAnimation.duration = firstDuration
-        tailAnimation.fromValue = 0.0
-        tailAnimation.toValue = 1.0
         
         let endTailAnimation = CABasicAnimation(keyPath: "strokeEnd")
         endTailAnimation.beginTime = firstDuration
@@ -111,7 +111,7 @@ public class CPLoadingView: UIView {
         endTailAnimation.toValue = 1.0
         
         let animations = CAAnimationGroup()
-        animations.duration = totalDuration
+        animations.duration = firstDuration + secondDuration
         animations.repeatCount = Float.infinity
         animations.animations = [headAnimation, tailAnimation, endHeadAnimation, endTailAnimation]
         progressLayer.addAnimation(animations, forKey: kCPRingStrokeAnimationKey)

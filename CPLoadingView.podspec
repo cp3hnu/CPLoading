@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = "CPLoadingView"
-  s.version          = "1.0.0"
-  s.summary          = "CPLoading shows loading process and ends with success or failure status"
+  s.version          = "1.0.1"
+  s.summary          = "CPLoading shows loading process and completes successfully or unsuccessfully in the animation."
   s.homepage         = "https://github.com/cp3hnu/CPLoading"
   s.license          = 'MIT'
   s.author           = { "Wei Zhao" => "cp3hnu@gmail.com" }
