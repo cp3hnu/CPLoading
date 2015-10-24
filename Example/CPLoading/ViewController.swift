@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet var slider: UISlider!
     @IBOutlet var loadingView: CPLoadingView!
     var coefficient = 1
     
@@ -17,7 +18,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        loadingView.backgroundColor = UIColor.clearColor()
+        //loadingView.backgroundColor = UIColor.clearColor()
+        slider.value = Float(loadingView.lineWidth)
         loadingView.startLoading()
     }
 
@@ -31,9 +33,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func ChangeLineWith(sender: AnyObject) {
-        guard loadingView.isLoading else { return }
-        let slider = sender as! UISlider
-        loadingView.lineWidth = CGFloat(slider.value)
+        if loadingView.isLoading {
+            let slider = sender as! UISlider
+            loadingView.lineWidth = CGFloat(slider.value)
+        } else {
+            self.slider.value = Float(loadingView.lineWidth)
+        }
     }
     
     @IBAction func stopLoadingWithSuccess(sender: UIButton) {
