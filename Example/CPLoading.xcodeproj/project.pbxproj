@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95194C441BDE05E600474627 /* UsageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95194C431BDE05E600474627 /* UsageViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		956980E11BCB5DAD00E866CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956980E01BCB5DAD00E866CC /* AppDelegate.swift */; };
 		956980E31BCB5DAD00E866CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956980E21BCB5DAD00E866CC /* ViewController.swift */; };
 		956980E61BCB5DAD00E866CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 956980E41BCB5DAD00E866CC /* Main.storyboard */; };
@@ -14,9 +15,7 @@
 		956980EB1BCB5DAD00E866CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 956980E91BCB5DAD00E866CC /* LaunchScreen.storyboard */; };
 		956980F61BCB5DAD00E866CC /* CPLoadingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956980F51BCB5DAD00E866CC /* CPLoadingTests.swift */; };
 		956981011BCB5DAD00E866CC /* CPLoadingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956981001BCB5DAD00E866CC /* CPLoadingUITests.swift */; };
-		957E9BAD1BD71A360056466E /* CPProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957E9BAC1BD71A360056466E /* CPProgressView.swift */; settings = {ASSET_TAGS = (); }; };
 		957E9BB21BD7478E0056466E /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957E9BB11BD7478E0056466E /* RootViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		957E9BB41BD760DC0056466E /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957E9BB31BD760DC0056466E /* ProgressViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		958084801BCF9FA200F40781 /* CPLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9580847F1BCF9FA200F40781 /* CPLoadingView.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -51,6 +50,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		95194C431BDE05E600474627 /* UsageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsageViewController.swift; sourceTree = "<group>"; };
 		956980DD1BCB5DAD00E866CC /* CPLoading.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CPLoading.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		956980E01BCB5DAD00E866CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		956980E21BCB5DAD00E866CC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,9 +64,7 @@
 		956980FC1BCB5DAD00E866CC /* CPLoadingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPLoadingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		956981001BCB5DAD00E866CC /* CPLoadingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPLoadingUITests.swift; sourceTree = "<group>"; };
 		956981021BCB5DAD00E866CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		957E9BAC1BD71A360056466E /* CPProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CPProgressView.swift; sourceTree = "<group>"; };
 		957E9BB11BD7478E0056466E /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
-		957E9BB31BD760DC0056466E /* ProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
 		9580847F1BCF9FA200F40781 /* CPLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CPLoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,7 +120,7 @@
 				956980E01BCB5DAD00E866CC /* AppDelegate.swift */,
 				957E9BB11BD7478E0056466E /* RootViewController.swift */,
 				956980E21BCB5DAD00E866CC /* ViewController.swift */,
-				957E9BB31BD760DC0056466E /* ProgressViewController.swift */,
+				95194C431BDE05E600474627 /* UsageViewController.swift */,
 				956980E41BCB5DAD00E866CC /* Main.storyboard */,
 				956980E71BCB5DAD00E866CC /* Assets.xcassets */,
 				956980E91BCB5DAD00E866CC /* LaunchScreen.storyboard */,
@@ -153,7 +151,6 @@
 			isa = PBXGroup;
 			children = (
 				9580847F1BCF9FA200F40781 /* CPLoadingView.swift */,
-				957E9BAC1BD71A360056466E /* CPProgressView.swift */,
 			);
 			name = Classes;
 			path = ../../Classes;
@@ -294,9 +291,8 @@
 				957E9BB21BD7478E0056466E /* RootViewController.swift in Sources */,
 				956980E31BCB5DAD00E866CC /* ViewController.swift in Sources */,
 				956980E11BCB5DAD00E866CC /* AppDelegate.swift in Sources */,
-				957E9BB41BD760DC0056466E /* ProgressViewController.swift in Sources */,
-				957E9BAD1BD71A360056466E /* CPProgressView.swift in Sources */,
 				958084801BCF9FA200F40781 /* CPLoadingView.swift in Sources */,
+				95194C441BDE05E600474627 /* UsageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

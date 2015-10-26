@@ -45,7 +45,7 @@ class RootViewController: UITableViewController {
         if indexPath.row == 0 {
             cell = tableView.dequeueReusableCellWithIdentifier("LoadingCell", forIndexPath: indexPath)
         } else {
-            cell = tableView.dequeueReusableCellWithIdentifier("ProgressCell", forIndexPath: indexPath)
+            cell = tableView.dequeueReusableCellWithIdentifier("UsageCell", forIndexPath: indexPath)
         }
 
         // Configure the cell...

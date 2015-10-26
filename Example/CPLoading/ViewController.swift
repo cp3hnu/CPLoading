@@ -18,22 +18,27 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        //loadingView.backgroundColor = UIColor.clearColor()
+        loadingView.backgroundColor = UIColor.clearColor()
         slider.value = Float(loadingView.lineWidth)
         loadingView.startLoading()
     }
 
-    @IBAction func Loading(sender: UIButton) {
+    @IBAction func loading(sender: UIButton) {
         loadingView.startLoading()
     }
     
-    @IBAction func SwitchValueChanged(sender: AnyObject) {
+    @IBAction func setProgress(sender: UIButton) {
+        let progress: Float = loadingView.progress + 0.1043
+        loadingView.progress = progress
+    }
+    
+    @IBAction func switchValueChanged(sender: AnyObject) {
         let switchCtr = sender as! UISwitch
         loadingView.hidesWhenCompleted = switchCtr.on
     }
     
-    @IBAction func ChangeLineWith(sender: AnyObject) {
-        if loadingView.isLoading {
+    @IBAction func changeLineWith(sender: AnyObject) {
+        if loadingView.status == .Loading {
             let slider = sender as! UISlider
             loadingView.lineWidth = CGFloat(slider.value)
         } else {
