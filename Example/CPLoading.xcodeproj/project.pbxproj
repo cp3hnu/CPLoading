@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		95194C441BDE05E600474627 /* UsageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95194C431BDE05E600474627 /* UsageViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		95194C441BDE05E600474627 /* UsageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95194C431BDE05E600474627 /* UsageViewController.swift */; };
 		956980E11BCB5DAD00E866CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956980E01BCB5DAD00E866CC /* AppDelegate.swift */; };
 		956980E31BCB5DAD00E866CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956980E21BCB5DAD00E866CC /* ViewController.swift */; };
 		956980E61BCB5DAD00E866CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 956980E41BCB5DAD00E866CC /* Main.storyboard */; };
@@ -15,8 +15,8 @@
 		956980EB1BCB5DAD00E866CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 956980E91BCB5DAD00E866CC /* LaunchScreen.storyboard */; };
 		956980F61BCB5DAD00E866CC /* CPLoadingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956980F51BCB5DAD00E866CC /* CPLoadingTests.swift */; };
 		956981011BCB5DAD00E866CC /* CPLoadingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956981001BCB5DAD00E866CC /* CPLoadingUITests.swift */; };
-		957E9BB21BD7478E0056466E /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957E9BB11BD7478E0056466E /* RootViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		958084801BCF9FA200F40781 /* CPLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9580847F1BCF9FA200F40781 /* CPLoadingView.swift */; settings = {ASSET_TAGS = (); }; };
+		957E9BB21BD7478E0056466E /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957E9BB11BD7478E0056466E /* RootViewController.swift */; };
+		958084801BCF9FA200F40781 /* CPLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9580847F1BCF9FA200F40781 /* CPLoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -437,7 +437,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zte.CPLoading;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -450,7 +450,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zte.CPLoading;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

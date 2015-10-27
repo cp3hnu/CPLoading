@@ -21,7 +21,7 @@ public class CPLoadingView : UIView {
         case Unknown, Loading, Progress, Completion
     }
     
-    @IBInspectable public var lineWidth: CGFloat = 1.0 {
+    @IBInspectable public var lineWidth: CGFloat = 2.0 {
         didSet {
             progressLayer.lineWidth = lineWidth
             shapeLayer.lineWidth = lineWidth
@@ -44,7 +44,7 @@ public class CPLoadingView : UIView {
         }
     }
     
-    @IBInspectable public var hidesWhenCompleted: Bool = false
+    public var hidesWhenCompleted: Bool = false
     
     public var hidesAfterTime: NSTimeInterval = kCPHidesWhenCompletedDelay
     
@@ -56,28 +56,30 @@ public class CPLoadingView : UIView {
             return _progress
         }
         set(newProgress) {
-            if status == .Loading {
-                progressLayer.removeAllAnimations()
-            } else if status == .Completion {
-                shapeLayer.strokeStart = 0
-                shapeLayer.strokeEnd = 0
-                shapeLayer.removeAllAnimations()
-            }
-            
-            status = .Progress
-            
-            _progress = min(max(0, newProgress), 1)
-            progressLayer.strokeEnd = CGFloat(_progress)
-            
-            progressLabel.hidden = false
-            
-            let progressStr = String(format: "%.1f", _progress * 100)
-            if progressStr == "0.0" {
-                progressLabel.text = "0"
-            } else if progressStr == "100.0" {
-                progressLabel.text = "100"
-            } else {
-                progressLabel.text = progressStr
+            //Avoid calling excessively
+            if newProgress - _progress >= 0.01 || newProgress >= 100.0 {
+                _progress = min(max(0, newProgress), 1)
+                progressLayer.strokeEnd = CGFloat(_progress)
+                
+                if status == .Loading {
+                    progressLayer.removeAllAnimations()
+                } else if status == .Completion {
+                    shapeLayer.strokeStart = 0
+                    shapeLayer.strokeEnd = 0
+                    shapeLayer.removeAllAnimations()
+                }
+                
+                status = .Progress
+                
+                progressLabel.hidden = false
+                let progressStr = String(format: "%.1f", _progress * 100)
+                if progressStr == "0.0" {
+                    progressLabel.text = "0"
+                } else if progressStr == "100.0" {
+                    progressLabel.text = "100"
+                } else {
+                    progressLabel.text = progressStr
+                }
             }
         }
     }

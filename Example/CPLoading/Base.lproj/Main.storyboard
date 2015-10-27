@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WsT-HE-Mm1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="WsT-HE-Mm1">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <scenes>
         <!--LoadingView-->
@@ -218,7 +218,7 @@
         <!--Usage-->
         <scene sceneID="P0Y-yF-Deu">
             <objects>
-                <viewController title="Usage" id="AyN-SE-2FB" sceneMemberID="viewController">
+                <viewController title="Usage" id="AyN-SE-2FB" customClass="UsageViewController" customModule="CPLoading" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Dll-Ib-B8Q"/>
                         <viewControllerLayoutGuide type="bottom" id="l4P-Hh-CRe"/>
@@ -226,9 +226,76 @@
                     <view key="view" contentMode="scaleToFill" id="5Y2-hx-xxH">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Sn-vX-66n">
+                                <rect key="frame" x="281" y="534" width="39" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Reset"/>
+                                <connections>
+                                    <action selector="reset:" destination="AyN-SE-2FB" eventType="touchUpInside" id="TUm-RK-WnV"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vcx-xj-DDs">
+                                <rect key="frame" x="150" y="84" width="300" height="300"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="FtI-3w-f0W" userLabel="height = 300"/>
+                                    <constraint firstAttribute="width" constant="300" id="PPy-TK-dXa"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcg-HS-f42">
+                                <rect key="frame" x="249" y="414" width="103" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Request Image"/>
+                                <connections>
+                                    <action selector="requestImage:" destination="AyN-SE-2FB" eventType="touchUpInside" id="ukS-qn-e2l"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="deC-R0-fDa" customClass="CPLoadingView" customModule="CPLoading" customModuleProvider="target">
+                                <rect key="frame" x="250" y="184" width="100" height="100"/>
+                                <animations/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="MVW-wu-UMc"/>
+                                    <constraint firstAttribute="width" constant="100" id="R1F-mH-Eig"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X5z-Oc-y9O">
+                                <rect key="frame" x="243" y="474" width="114" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Download Image"/>
+                                <connections>
+                                    <action selector="downloadImage:" destination="AyN-SE-2FB" eventType="touchUpInside" id="D53-5J-Xjq"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7Sn-vX-66n" firstAttribute="top" secondItem="X5z-Oc-y9O" secondAttribute="bottom" constant="30" id="A8n-LZ-v0g"/>
+                            <constraint firstItem="Vcx-xj-DDs" firstAttribute="top" secondItem="Dll-Ib-B8Q" secondAttribute="bottom" constant="20" id="Gej-Ug-AxR"/>
+                            <constraint firstItem="fcg-HS-f42" firstAttribute="centerX" secondItem="5Y2-hx-xxH" secondAttribute="centerX" id="Lgo-3g-KCN"/>
+                            <constraint firstItem="7Sn-vX-66n" firstAttribute="centerX" secondItem="5Y2-hx-xxH" secondAttribute="centerX" id="TUr-k7-1Jr"/>
+                            <constraint firstItem="deC-R0-fDa" firstAttribute="centerY" secondItem="Vcx-xj-DDs" secondAttribute="centerY" id="VwT-dZ-Y5U"/>
+                            <constraint firstItem="Vcx-xj-DDs" firstAttribute="centerX" secondItem="5Y2-hx-xxH" secondAttribute="centerX" id="XKh-Nf-RGF"/>
+                            <constraint firstItem="fcg-HS-f42" firstAttribute="top" secondItem="Vcx-xj-DDs" secondAttribute="bottom" constant="30" id="YZb-yf-uXn"/>
+                            <constraint firstItem="X5z-Oc-y9O" firstAttribute="centerX" secondItem="5Y2-hx-xxH" secondAttribute="centerX" id="baM-mS-qev"/>
+                            <constraint firstItem="X5z-Oc-y9O" firstAttribute="top" secondItem="fcg-HS-f42" secondAttribute="bottom" constant="30" id="hpL-qU-QRv"/>
+                            <constraint firstItem="deC-R0-fDa" firstAttribute="centerX" secondItem="Vcx-xj-DDs" secondAttribute="centerX" id="jjc-QL-EqG"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="downloadButton" destination="X5z-Oc-y9O" id="hey-sx-jds"/>
+                        <outlet property="imageView" destination="Vcx-xj-DDs" id="IHt-Fm-ciw"/>
+                        <outlet property="loadingView" destination="deC-R0-fDa" id="ITq-PB-EEz"/>
+                        <outlet property="requestButton" destination="fcg-HS-f42" id="55d-u0-jwY"/>
+                        <outlet property="resetButton" destination="7Sn-vX-66n" id="vUJ-qb-tIC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gGI-c7-DXM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
