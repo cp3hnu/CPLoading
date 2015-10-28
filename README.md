@@ -1,6 +1,6 @@
 # CPLoading
 
-CPLoading shows loading process and completes successfully or unsuccessfully in the animation. 
+CPLoading shows loading, progress and completion in the animation. 
 
 Inspired by the excellent [MMMaterialDesignSpinner](https://github.com/misterwell/MMMaterialDesignSpinner)
 
@@ -27,27 +27,11 @@ Then import library module like so:
 ```swift
 import CPLoadingView
 ```
-## Usage
-
-Start loading
-```swift
-startLoading()
-``` 
-
-Complete loading successfully
-```swift
-completeLoading(true)
-``` 
-
-Complete loading unsuccessfully
-```swift
-completeLoading(false)
-``` 
 
 ## Properties
 
 ```swift
-var lineWidth: CGFloat = 1.0
+var lineWidth: CGFloat = 2.0
 ```
 
 The line width of path of view.
@@ -59,15 +43,47 @@ var strokeColor: UIColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alph
 The stroke color of path of view.
 
 ```swift
+var fontSize: Float = 30
+```
+
+The font size of progress
+
+```swift
 var hidesWhenCompleted: Bool = false
 ```
 
 Whether to hide view when loading completed
 
-## Requirements
-* Swift 2.0
-* Xcode 7
+```swift
+var hidesAfterTime: NSTimeInterval = 0.5
+```
 
+The delay time to hide view
+
+## Usage
+
+Start loading
+```swift
+loadingView.startLoading()
+``` 
+
+Set progress
+```swift
+loadingView.progress = 0.5
+``` 
+
+Complete loading successfully
+```swift
+loadingView.completeLoading(true)
+``` 
+
+Complete loading unsuccessfully
+```swift
+loadingView.completeLoading(false)
+``` 
+
+## Requirements
+* Swift 2.0＋
 
 ## License
 Released under the MIT license. See LICENSE for details.
