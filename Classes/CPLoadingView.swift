@@ -72,14 +72,8 @@ public class CPLoadingView : UIView {
                 status = .Progress
                 
                 progressLabel.hidden = false
-                let progressStr = String(format: "%.1f", _progress * 100)
-                if progressStr == "0.0" {
-                    progressLabel.text = "0"
-                } else if progressStr == "100.0" {
-                    progressLabel.text = "100"
-                } else {
-                    progressLabel.text = progressStr
-                }
+                let progressInt: Int = Int(_progress * 100)
+                progressLabel.text = "\(progressInt)"
             }
         }
     }
@@ -277,7 +271,6 @@ public class CPLoadingView : UIView {
             }
         }
     }
-    
     
     //MARK: - Private
     private func initialize() {
