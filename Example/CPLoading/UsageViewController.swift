@@ -12,11 +12,13 @@ class UsageViewController: UIViewController, NSURLSessionDataDelegate, NSURLSess
 
     @IBOutlet var loadingView: CPLoadingView!
     @IBOutlet var imageView: UIImageView!
-    var data: NSMutableData = NSMutableData()
-    
     @IBOutlet var resetButton: UIButton!
     @IBOutlet var downloadButton: UIButton!
     @IBOutlet var requestButton: UIButton!
+    
+    var dataSession: NSURLSession!
+    var downloadSession: NSURLSession!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,11 +29,22 @@ class UsageViewController: UIViewController, NSURLSessionDataDelegate, NSURLSess
         imageView.backgroundColor = UIColor.blackColor()
         
         resetButton.enabled = false
+        
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.requestCachePolicy = .ReloadIgnoringLocalCacheData
+        
+        dataSession = NSURLSession(configuration: configuration, delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
+        downloadSession = NSURLSession(configuration: configuration, delegate: self, delegateQueue: NSOperationQueue.mainQueue())
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    deinit {
+        dataSession.invalidateAndCancel()
+        downloadSession.invalidateAndCancel()
     }
     
     //MARK: Button Action
@@ -42,12 +55,9 @@ class UsageViewController: UIViewController, NSURLSessionDataDelegate, NSURLSess
         
         loadingView.startLoading()
         
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.requestCachePolicy = .ReloadIgnoringLocalCacheData
-        let session = NSURLSession(configuration: configuration, delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
         let url = NSURL(string: "http://imgsrc.baidu.com/forum/pic/item/a71ea8d3fd1f4134854c9235251f95cad1c85e05.jpg")
         
-        let dataTask = session.dataTaskWithURL(url!) { (data, response, error) -> Void in
+        let dataTask = dataSession.dataTaskWithURL(url!) { (data, response, error) -> Void in
             if let imageData = data where error == nil {
                 let image = UIImage(data: imageData)
                 self.imageView.image = image
@@ -68,13 +78,10 @@ class UsageViewController: UIViewController, NSURLSessionDataDelegate, NSURLSess
         downloadButton.enabled = false
         
         loadingView.startLoading()
-        
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.requestCachePolicy = .ReloadIgnoringLocalCacheData
-        let session = NSURLSession(configuration: configuration, delegate: self, delegateQueue: NSOperationQueue.mainQueue())
+    
         let url = NSURL(string: "http://img2.niutuku.com/desk/1208/1400/ntk-1400-9953.jpg")
         
-        let downloadTask = session.downloadTaskWithURL(url!)
+        let downloadTask = downloadSession.downloadTaskWithURL(url!)
         downloadTask.resume()
     }
     

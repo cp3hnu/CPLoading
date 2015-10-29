@@ -83,7 +83,7 @@ loadingView.completeLoading(false)
 ``` 
 
 ## Requirements
-* Swift 2.0＋
+* Swift 2.0 +
 
 ## License
 Released under the MIT license. See LICENSE for details.
