@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UsageViewController: UIViewController, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate {
+class UsageViewController: UIViewController, NSURLSessionDownloadDelegate {
 
     @IBOutlet var loadingView: CPLoadingView!
     @IBOutlet var imageView: UIImageView!
@@ -31,6 +31,7 @@ class UsageViewController: UIViewController, NSURLSessionDataDelegate, NSURLSess
         resetButton.enabled = false
         
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.timeoutIntervalForRequest = 10
         configuration.requestCachePolicy = .ReloadIgnoringLocalCacheData
         
         dataSession = NSURLSession(configuration: configuration, delegate: nil, delegateQueue: NSOperationQueue.mainQueue())
