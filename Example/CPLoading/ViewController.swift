@@ -18,27 +18,27 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        loadingView.backgroundColor = UIColor.clearColor()
+        loadingView.backgroundColor = UIColor.clear
         slider.value = Float(loadingView.lineWidth)
         loadingView.startLoading()
     }
 
-    @IBAction func loading(sender: UIButton) {
+    @IBAction func loading(_ sender: UIButton) {
         loadingView.startLoading()
     }
     
-    @IBAction func setProgress(sender: UIButton) {
+    @IBAction func setProgress(_ sender: UIButton) {
         let progress: Float = loadingView.progress + 0.1043
         loadingView.progress = progress
     }
     
-    @IBAction func switchValueChanged(sender: AnyObject) {
+    @IBAction func switchValueChanged(_ sender: AnyObject) {
         let switchCtr = sender as! UISwitch
-        loadingView.hidesWhenCompleted = switchCtr.on
+        loadingView.hidesWhenCompleted = switchCtr.isOn
     }
     
-    @IBAction func changeLineWith(sender: AnyObject) {
-        if loadingView.status == .Loading {
+    @IBAction func changeLineWith(_ sender: AnyObject) {
+        if loadingView.status == .loading {
             let slider = sender as! UISlider
             loadingView.lineWidth = CGFloat(slider.value)
         } else {
@@ -46,15 +46,15 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func stopLoadingWithSuccess(sender: UIButton) {
+    @IBAction func stopLoadingWithSuccess(_ sender: UIButton) {
         loadingView.completeLoading(true)
     }
     
-    @IBAction func stopLoadingWithFailure(sender: UIButton) {
+    @IBAction func stopLoadingWithFailure(_ sender: UIButton) {
         loadingView.completeLoading(false)
     }
     
-    @IBAction func changeColor(sender: UIButton) {
+    @IBAction func changeColor(_ sender: UIButton) {
         
         let red = arc4random()%256
         let green = arc4random()%256

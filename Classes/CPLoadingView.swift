@@ -10,18 +10,18 @@ import UIKit
 
 let kCPRingStrokeAnimationKey = "CPLoading.stroke"
 let kCPRingRotationAnimationKey = "CPLoading.rotation"
-let kCPCompletionAnimationDuration: NSTimeInterval = 0.3
-let kCPHidesWhenCompletedDelay: NSTimeInterval = 0.5
+let kCPCompletionAnimationDuration: TimeInterval = 0.3
+let kCPHidesWhenCompletedDelay: TimeInterval = 0.5
 
 public typealias Block = () -> Void
 
-public class CPLoadingView : UIView {
+open class CPLoadingView : UIView {
     
     public enum ProgressStatus: Int {
-        case Unknown, Loading, Progress, Completion
+        case unknown, loading, progress, completion
     }
     
-    @IBInspectable public var lineWidth: CGFloat = 2.0 {
+    @IBInspectable open var lineWidth: CGFloat = 2.0 {
         didSet {
             progressLayer.lineWidth = lineWidth
             shapeLayer.lineWidth = lineWidth
@@ -30,28 +30,28 @@ public class CPLoadingView : UIView {
         }
     }
     
-    @IBInspectable public var strokeColor: UIColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0) {
+    @IBInspectable open var strokeColor: UIColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0) {
         didSet {
-            progressLayer.strokeColor = strokeColor.CGColor
-            shapeLayer.strokeColor = strokeColor.CGColor
+            progressLayer.strokeColor = strokeColor.cgColor
+            shapeLayer.strokeColor = strokeColor.cgColor
             progressLabel.textColor = strokeColor
         }
     }
     
-    @IBInspectable public var fontSize: Float = 30 {
+    @IBInspectable open var fontSize: Float = 30 {
         didSet {
-            progressLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
+            progressLabel.font = UIFont.systemFont(ofSize: CGFloat(fontSize))
         }
     }
     
-    public var hidesWhenCompleted: Bool = false
+    open var hidesWhenCompleted: Bool = false
     
-    public var hidesAfterTime: NSTimeInterval = kCPHidesWhenCompletedDelay
+    open var hidesAfterTime: TimeInterval = kCPHidesWhenCompletedDelay
     
-    public private(set) var status: ProgressStatus = .Unknown
+    open fileprivate(set) var status: ProgressStatus = .unknown
     
-    private var _progress: Float = 0.0
-    public var progress: Float {
+    fileprivate var _progress: Float = 0.0
+    open var progress: Float {
         get {
             return _progress
         }
@@ -61,28 +61,28 @@ public class CPLoadingView : UIView {
                 _progress = min(max(0.0, newProgress), 1.0)
                 progressLayer.strokeEnd = CGFloat(_progress)
                 
-                if status == .Loading {
+                if status == .loading {
                     progressLayer.removeAllAnimations()
-                } else if status == .Completion {
+                } else if status == .completion {
                     shapeLayer.strokeStart = 0
                     shapeLayer.strokeEnd = 0
                     shapeLayer.removeAllAnimations()
                 }
                 
-                status = .Progress
+                status = .progress
                 
-                progressLabel.hidden = false
+                progressLabel.isHidden = false
                 let progressInt: Int = Int(_progress * 100)
                 progressLabel.text = "\(progressInt)"
             }
         }
     }
     
-    private let progressLayer: CAShapeLayer! = CAShapeLayer()
-    private let shapeLayer: CAShapeLayer! = CAShapeLayer()
-    private let progressLabel: UILabel! = UILabel()
+    fileprivate let progressLayer: CAShapeLayer! = CAShapeLayer()
+    fileprivate let shapeLayer: CAShapeLayer! = CAShapeLayer()
+    fileprivate let progressLabel: UILabel! = UILabel()
     
-    private var completionBlock: Block?
+    fileprivate var completionBlock: Block?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -95,38 +95,38 @@ public class CPLoadingView : UIView {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
-    override public func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         
-        let width = CGRectGetWidth(self.bounds)
-        let height = CGRectGetHeight(self.bounds)
+        let width = self.bounds.width
+        let height = self.bounds.height
         let square = min(width, height)
         
-        let bounds = CGRectMake(0, 0, square, square)
+        let bounds = CGRect(x: 0, y: 0, width: square, height: square)
         
-        progressLayer.frame = CGRectMake(0, 0, width, height)
+        progressLayer.frame = CGRect(x: 0, y: 0, width: width, height: height)
         setProgressLayerPath()
         
         shapeLayer.bounds = bounds
-        shapeLayer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
+        shapeLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
         
         let labelSquare = sqrt(2) / 2.0 * square
-        progressLabel.bounds = CGRectMake(0, 0, labelSquare, labelSquare)
-        progressLabel.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
+        progressLabel.bounds = CGRect(x: 0, y: 0, width: labelSquare, height: labelSquare)
+        progressLabel.center = CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
     //MARK: - Public
-    public func startLoading() {
-        if status == .Loading {
+    open func startLoading() {
+        if status == .loading {
             return
         }
         
-        status = .Loading
+        status = .loading
         
-        progressLabel.hidden = true
+        progressLabel.isHidden = true
         progressLabel.text = "0"
         _progress = 0
         
@@ -134,7 +134,7 @@ public class CPLoadingView : UIView {
         shapeLayer.strokeEnd = 0
         shapeLayer.removeAllAnimations()
         
-        self.hidden = false
+        isHidden = false
         progressLayer.strokeEnd = 0.0
         progressLayer.removeAllAnimations()
         
@@ -143,7 +143,7 @@ public class CPLoadingView : UIView {
         animation.fromValue = 0.0
         animation.toValue = 2 * M_PI
         animation.repeatCount = Float.infinity
-        progressLayer.addAnimation(animation, forKey: kCPRingRotationAnimationKey)
+        progressLayer.add(animation, forKey: kCPRingRotationAnimationKey)
         
         let totalDuration = 1.0
         let firstDuration = 2.0 * totalDuration / 3.0
@@ -175,17 +175,17 @@ public class CPLoadingView : UIView {
         animations.duration = firstDuration + secondDuration
         animations.repeatCount = Float.infinity
         animations.animations = [headAnimation, tailAnimation, endHeadAnimation, endTailAnimation]
-        progressLayer.addAnimation(animations, forKey: kCPRingStrokeAnimationKey)
+        progressLayer.add(animations, forKey: kCPRingStrokeAnimationKey)
     }
     
-    public func completeLoading(success: Bool, completion: Block? = nil) {
-        if status == .Completion {
+    open func completeLoading(_ success: Bool, completion: Block? = nil) {
+        if status == .completion {
             return
         }
         
         completionBlock = completion
         
-        progressLabel.hidden = true
+        progressLabel.isHidden = true
         progressLayer.strokeEnd = 1.0
         progressLayer.removeAllAnimations()
         
@@ -202,7 +202,7 @@ public class CPLoadingView : UIView {
         var phase3Duration = 0.0
         
         if !success {
-            let square = min(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))
+            let square = min(bounds.width, bounds.height)
             let point = errorJoinPoint()
             let increase = 1.0/3 * square - point.x
             let sum = 2.0/3 * square
@@ -258,61 +258,50 @@ public class CPLoadingView : UIView {
         }
         groupAnimation.duration = phase1Duration + phase2Duration + phase3Duration
         groupAnimation.delegate = self
-        shapeLayer.addAnimation(groupAnimation, forKey: nil)
-    }
-    
-    override public func animationDidStop(anim: CAAnimation, finished flag: Bool) {
-        if hidesWhenCompleted {
-            NSTimer.scheduledTimerWithTimeInterval(kCPHidesWhenCompletedDelay, target: self, selector: #selector(CPLoadingView.hiddenLoadingView), userInfo: nil, repeats: false)
-        } else {
-            status = .Completion
-            if completionBlock != nil {
-                completionBlock!()
-            }
-        }
+        shapeLayer.add(groupAnimation, forKey: nil)
     }
     
     //MARK: - Private
-    private func initialize() {
+    fileprivate func initialize() {
         //progressLabel
-        progressLabel.font = UIFont.systemFontOfSize(CGFloat(fontSize))
+        progressLabel.font = UIFont.systemFont(ofSize: CGFloat(fontSize))
         progressLabel.textColor = strokeColor
-        progressLabel.textAlignment = .Center
+        progressLabel.textAlignment = .center
         progressLabel.adjustsFontSizeToFitWidth = true
-        progressLabel.hidden = true
-        self.addSubview(progressLabel)
+        progressLabel.isHidden = true
+        addSubview(progressLabel)
         
         //progressLayer
-        progressLayer.strokeColor = strokeColor.CGColor
+        progressLayer.strokeColor = strokeColor.cgColor
         progressLayer.fillColor = nil
         progressLayer.lineWidth = lineWidth
-        self.layer.addSublayer(progressLayer)
+        layer.addSublayer(progressLayer)
         
         //shapeLayer
-        shapeLayer.strokeColor = strokeColor.CGColor
+        shapeLayer.strokeColor = strokeColor.cgColor
         shapeLayer.fillColor = nil
         shapeLayer.lineWidth = lineWidth
         shapeLayer.lineCap = kCALineCapRound
         shapeLayer.lineJoin = kCALineJoinRound
         shapeLayer.strokeStart = 0.0
         shapeLayer.strokeEnd = 0.0
-        self.layer.addSublayer(shapeLayer)
+        layer.addSublayer(shapeLayer)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector:#selector(CPLoadingView.resetAnimations), name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(CPLoadingView.resetAnimations), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     }
     
-    private func setProgressLayerPath() {
-        let center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
-        let radius = (min(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)) - progressLayer.lineWidth) / 2
+    fileprivate func setProgressLayerPath() {
+        let center = CGPoint(x: bounds.midX, y: bounds.midY)
+        let radius = (min(bounds.width, bounds.height) - progressLayer.lineWidth) / 2
         let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: CGFloat(0.0), endAngle: CGFloat(2 * M_PI), clockwise: true)
-        progressLayer.path = path.CGPath
+        progressLayer.path = path.cgPath
         progressLayer.strokeStart = 0.0
         progressLayer.strokeEnd = 0.0
     }
     
-    private func setStrokeSuccessShapePath() {
-        let width = CGRectGetWidth(self.bounds)
-        let height = CGRectGetHeight(self.bounds)
+    fileprivate func setStrokeSuccessShapePath() {
+        let width = bounds.width
+        let height = bounds.height
         let square = min(width, height)
         let b = square/2
         let oneTenth = square/10
@@ -323,10 +312,10 @@ public class CPLoadingView : UIView {
         
         //y1 = x1 + xOffset + yOffset
         //y2 = -x2 + 2b - xOffset + yOffset
-        let path = CGPathCreateMutable()
-        CGPathMoveToPoint(path, nil, point.x, point.y)
-        CGPathAddLineToPoint(path, nil, b - xOffset, b + yOffset)
-        CGPathAddLineToPoint(path, nil, 2 * b - xOffset + yOffset - ySpace, ySpace)
+        let path = CGMutablePath()
+        path.move(to: point)
+        path.addLine(to: CGPoint(x: b - xOffset, y: b + yOffset))
+        path.addLine(to: CGPoint(x: 2 * b - xOffset + yOffset - ySpace, y: ySpace))
         
         shapeLayer.path = path
         shapeLayer.cornerRadius = square/2
@@ -335,9 +324,9 @@ public class CPLoadingView : UIView {
         shapeLayer.strokeEnd = 0.0
     }
     
-    private func setStrokeFailureShapePath() {
-        let width = CGRectGetWidth(self.bounds)
-        let height = CGRectGetHeight(self.bounds)
+    fileprivate func setStrokeFailureShapePath() {
+        let width = bounds.width
+        let height = bounds.height
         let square = min(width, height)
         let b = square/2
         let space = square/3
@@ -345,11 +334,11 @@ public class CPLoadingView : UIView {
         
         //y1 = x1
         //y2 = -x2 + 2b
-        let path = CGPathCreateMutable()
-        CGPathMoveToPoint(path, nil, point.x, point.y)
-        CGPathAddLineToPoint(path, nil, 2 * b - space, 2 * b - space)
-        CGPathMoveToPoint(path, nil, 2 * b - space, space)
-        CGPathAddLineToPoint(path, nil, space, 2 * b - space)
+        let path = CGMutablePath()
+        path.move(to: point)
+        path.addLine(to: CGPoint(x: b - space, y: 2 * b - space))
+        path.move(to: CGPoint(x: 2 * b - space, y: space))
+        path.addLine(to: CGPoint(x: space, y: 2 * b - space))
         
         shapeLayer.path = path
         shapeLayer.cornerRadius = square/2
@@ -358,8 +347,8 @@ public class CPLoadingView : UIView {
         shapeLayer.strokeEnd = 0.0
     }
     
-    private func correctJoinPoint() -> CGPoint {
-        let r = min(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))/2
+    fileprivate func correctJoinPoint() -> CGPoint {
+        let r = min(bounds.width, bounds.height)/2
         let m = r/2
         let k = lineWidth/2
         
@@ -369,11 +358,11 @@ public class CPLoadingView : UIView {
         let x = (-b - sqrt(b * b - 4 * a * c))/(2 * a)
         let y = x + m
         
-        return CGPointMake(x, y)
+        return CGPoint(x: x, y: y)
     }
     
-    private func errorJoinPoint() -> CGPoint {
-        let r = min(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))/2
+    fileprivate func errorJoinPoint() -> CGPoint {
+        let r = min(bounds.width, bounds.height)/2
         let k = lineWidth/2
         
         let a: CGFloat = 2.0
@@ -381,25 +370,38 @@ public class CPLoadingView : UIView {
         let c = r * r + 2 * r * k - k * k
         let x = (-b - sqrt(b * b - 4 * a * c))/(2 * a)
         
-        return CGPointMake(x, x)
+        return CGPoint(x: x, y: x)
     }
     
-    @objc private func resetAnimations() {
-        if status == .Loading {
-            status = .Unknown
-            progressLayer.removeAnimationForKey(kCPRingRotationAnimationKey)
-            progressLayer.removeAnimationForKey(kCPRingStrokeAnimationKey)
+    @objc fileprivate func resetAnimations() {
+        if status == .loading {
+            status = .unknown
+            progressLayer.removeAnimation(forKey: kCPRingRotationAnimationKey)
+            progressLayer.removeAnimation(forKey: kCPRingStrokeAnimationKey)
             
             startLoading()
         }
     }
     
-    @objc private func hiddenLoadingView() {
-        status = .Completion
-        self.hidden = true
+    @objc fileprivate func hiddenLoadingView() {
+        status = .completion
+        isHidden = true
         
         if completionBlock != nil {
             completionBlock!()
+        }
+    }
+}
+
+extension CPLoadingView: CAAnimationDelegate {
+    public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        if hidesWhenCompleted {
+            Timer.scheduledTimer(timeInterval: kCPHidesWhenCompletedDelay, target: self, selector: #selector(CPLoadingView.hiddenLoadingView), userInfo: nil, repeats: false)
+        } else {
+            status = .completion
+            if completionBlock != nil {
+                completionBlock!()
+            }
         }
     }
 }
