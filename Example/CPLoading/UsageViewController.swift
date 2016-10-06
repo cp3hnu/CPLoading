@@ -62,9 +62,9 @@ class UsageViewController: UIViewController, URLSessionDownloadDelegate {
             if let imageData = data , error == nil {
                 let image = UIImage(data: imageData)
                 self.imageView.image = image
-                self.loadingView.completeLoading(true)
+                self.loadingView.completeLoading(success: true)
             } else {
-                self.loadingView.completeLoading(false)
+                self.loadingView.completeLoading(success: false)
             }
             
             self.resetButton.isEnabled = true
@@ -112,9 +112,9 @@ class UsageViewController: UIViewController, URLSessionDownloadDelegate {
     internal func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         
         if error == nil {
-            loadingView.completeLoading(true)
+            loadingView.completeLoading(success: true)
         } else {
-            loadingView.completeLoading(false)
+            loadingView.completeLoading(success: false)
         }
         
         self.resetButton.isEnabled = true

@@ -8,12 +8,12 @@
 
 import UIKit
 
-let kCPRingStrokeAnimationKey = "CPLoading.stroke"
-let kCPRingRotationAnimationKey = "CPLoading.rotation"
-let kCPCompletionAnimationDuration: TimeInterval = 0.3
-let kCPHidesWhenCompletedDelay: TimeInterval = 0.5
+private let kCPRingStrokeAnimationKey = "CPLoading.stroke"
+private let kCPRingRotationAnimationKey = "CPLoading.rotation"
+private let kCPCompletionAnimationDuration: TimeInterval = 0.3
+private let kCPHidesWhenCompletedDelay: TimeInterval = 0.5
 
-public typealias Block = () -> Void
+public typealias CompletionBlock = () -> Void
 
 open class CPLoadingView : UIView {
     
@@ -82,7 +82,7 @@ open class CPLoadingView : UIView {
     fileprivate let shapeLayer: CAShapeLayer! = CAShapeLayer()
     fileprivate let progressLabel: UILabel! = UILabel()
     
-    fileprivate var completionBlock: Block?
+    fileprivate var completionBlock: CompletionBlock?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -178,7 +178,7 @@ open class CPLoadingView : UIView {
         progressLayer.add(animations, forKey: kCPRingStrokeAnimationKey)
     }
     
-    open func completeLoading(_ success: Bool, completion: Block? = nil) {
+    open func completeLoading(success: Bool, completion: CompletionBlock? = nil) {
         if status == .completion {
             return
         }

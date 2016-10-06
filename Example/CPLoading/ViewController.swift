@@ -47,11 +47,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func stopLoadingWithSuccess(_ sender: UIButton) {
-        loadingView.completeLoading(true)
+        loadingView.completeLoading(success: true)
     }
     
     @IBAction func stopLoadingWithFailure(_ sender: UIButton) {
-        loadingView.completeLoading(false)
+        loadingView.completeLoading(success: false)
     }
     
     @IBAction func changeColor(_ sender: UIButton) {
