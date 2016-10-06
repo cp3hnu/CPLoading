@@ -96,8 +96,8 @@ loadingView.completeLoading(false)
 
 ## Requirements
 
-* Swift 2.2
-* Xcode 7.3
+* Swift 3.0+
+* Xcode 8.0+
 
 ## License
 
