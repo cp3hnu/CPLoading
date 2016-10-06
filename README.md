@@ -85,13 +85,13 @@ loadingView.progress = 0.5
 Complete loading successfully
 
 ``` swift
-loadingView.completeLoading(true)
+loadingView.completeLoading(success: true)
 ```
 
 Complete loading unsuccessfully
 
 ``` swift
-loadingView.completeLoading(false)
+loadingView.completeLoading(success: false)
 ```
 
 ## Requirements
