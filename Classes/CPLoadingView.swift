@@ -141,7 +141,7 @@ open class CPLoadingView : UIView {
         let animation = CABasicAnimation(keyPath: "transform.rotation")
         animation.duration = 4.0
         animation.fromValue = 0.0
-        animation.toValue = 2 * M_PI
+        animation.toValue = 2 * Double.pi
         animation.repeatCount = Float.infinity
         progressLayer.add(animation, forKey: kCPRingRotationAnimationKey)
         
@@ -293,7 +293,7 @@ open class CPLoadingView : UIView {
     fileprivate func setProgressLayerPath() {
         let center = CGPoint(x: bounds.midX, y: bounds.midY)
         let radius = (min(bounds.width, bounds.height) - progressLayer.lineWidth) / 2
-        let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: CGFloat(0.0), endAngle: CGFloat(2 * M_PI), clockwise: true)
+        let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: CGFloat(0.0), endAngle: CGFloat(2 * Double.pi), clockwise: true)
         progressLayer.path = path.cgPath
         progressLayer.strokeStart = 0.0
         progressLayer.strokeEnd = 0.0
