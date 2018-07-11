@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CPLoading
 
 class UsageViewController: UIViewController, URLSessionDownloadDelegate {
 
