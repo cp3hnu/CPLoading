@@ -23,6 +23,11 @@ class ViewController: UIViewController {
         slider.value = Float(loadingView.lineWidth)
         loadingView.startLoading()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadingView?.reloadingWhenNotCompleted()
+    }
 
     @IBAction func loading(_ sender: UIButton) {
         loadingView.startLoading()
@@ -56,10 +61,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func changeColor(_ sender: UIButton) {
-        
-        let red = arc4random()%256
-        let green = arc4random()%256
-        let blue = arc4random()%256
+        let red = Int.random(in: 0..<256)
+        let green = Int.random(in: 0..<256)
+        let blue = Int.random(in: 0..<256)
         
         let color = UIColor(red: CGFloat(red)/255.0, green: CGFloat(green)/255.0, blue: CGFloat(blue)/255.0, alpha: 1.0)
         
