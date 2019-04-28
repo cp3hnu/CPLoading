@@ -96,8 +96,8 @@ loadingView.completeLoading(success: false)
 
 ## Requirements
 
-* Swift 4.0+
-* Xcode 9.0+
+* Swift 5.0
+* Xcode 10.2
 
 ## License
 
